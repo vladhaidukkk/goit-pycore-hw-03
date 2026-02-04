@@ -13,14 +13,9 @@ def get_days_from_today(date: str) -> int:
 
 # Task 2:
 def get_numbers_ticket(min: int, max: int, quantity: int) -> list[int]:
-    if min < 1 or max > 1000:
+    if min < 1 or max > 1000 or min > max or max + 1 - min < quantity:
         return []
-
-    nums = list(range(min, max + 1))
-    if len(nums) < quantity:
-        return []
-
-    return sorted(random.sample(nums, k=quantity))
+    return sorted(random.sample(range(min, max + 1), k=quantity))
 
 
 # Task 3:
@@ -67,8 +62,10 @@ def get_upcoming_birthdays(users: list[User]) -> list[UpcomingBirthday]:
             continue
 
         congratulation_date = next_birthday
-        if congratulation_date.isoweekday() > 5:
-            congratulation_date += timedelta(days=congratulation_date.isoweekday() - 5)
+        if congratulation_date.isoweekday() == 6:  # Saturday -> Monday
+            congratulation_date += timedelta(days=2)
+        elif congratulation_date.isoweekday() == 7:  # Sunday -> Monday
+            congratulation_date += timedelta(days=1)
 
         upcoming_birthdays.append(
             {
