@@ -6,9 +6,13 @@ from typing import TypedDict
 
 # Task 1:
 def get_days_from_today(date: str) -> int:
-    date_obj = datetime.strptime(date, "%Y-%m-%d").date()
-    dates_diff = datetime.now().date() - date_obj
-    return dates_diff.days
+    try:
+        date_obj = datetime.strptime(date, "%Y-%m-%d").date()
+    except ValueError:
+        raise ValueError("Invalid date format. Expected YYYY-MM-DD.")
+    else:
+        dates_diff = datetime.now().date() - date_obj
+        return dates_diff.days
 
 
 # Task 2:
